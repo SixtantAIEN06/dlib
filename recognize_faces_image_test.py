@@ -13,7 +13,7 @@ import os
 from collections import Counter
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -48,13 +48,38 @@ rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 # to each face in the input image, then compute the facial embeddings
 # for each face
 print("[INFO] recognizing faces...")
-boxes = face_recognition.face_locations(rgb,
-    model=args["detection_method"])
+
+tEncodingStart=time.time()
+imagepathTail=os.path.split(args["image"])[1]
+logging.debug(f'file : {imagepathTail}\n')
+label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv')
+label = label.loc[label['filename']==imagepathTail,:]
+locationsSize=1
+boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
+model=args["detection_method"])
 encodings = face_recognition.face_encodings(rgb, boxes)
+logging.debug(f'boxes : {len(boxes)}\n')
+
+while len(boxes)<label.iloc[:,2:6].sum(axis="columns").values:
+    locationsSize+=0.1
+    boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
+    model=args["detection_method"])
+    encodings = face_recognition.face_encodings(rgb, boxes)
+    logging.debug(f'boxes_upsample : {len(boxes)}\n')
+while len(boxes)>label.iloc[:,2:6].sum(axis="columns").values:
+    for (top, right, bottom, left) in boxes:
+        # draw the predicted face name on the image
+        cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
+        y = top - 15 if top - 15 > 15 else top + 15
+    cv2.imshow("Image", image)
+    cv2.waitKey(0)
+
 
 # initialize the list of names for each face detected
 names = []
+tEncodingEnd=time.time()
 
+tCompareStart=time.time()
 # loop over the facial embeddings
 for encoding in encodings:
     # attempt to match each face in the input image to our known
@@ -88,12 +113,8 @@ for encoding in encodings:
     # update the list of names
     names.append(name)
 
-imagepathTail=os.path.split(args["image"])[1]
 count = Counter(names)
-label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv')
-label = label.loc[label['filename']==imagepathTail,:]
 TP,FP,TN,FN=[0,0,0,0]
-
 for key in label.columns[2:6]:
     print(count.get(key),label[key].values.item(0), key,'\n============================================\n')
     if key=='unknown':
@@ -110,24 +131,10 @@ for key in label.columns[2:6]:
         elif count.get(key) and count.get(key)<label[key].values.item(0):
             TP = count.get(key)
             FP = 0
-
-    # if count.get(key) and key!='unknown' and result==0:
-    #     TP = result+TP
-    #     print('tp+1',count.get(key),label[key].values.item(0), key)
-    # elif count.get(key) and key!='unknown' and count.get(key)!=label[key].values.item(0):
-    #     FP+=1
-    #     print('fp+1',count.get(key),label[key].values.item(0), key)
-    # elif count.get(key) and key=='unknown' and count.get(key)==label[key].values.item(0):
-    #     TN+=1
-    #     print('tn+1',count.get(key),label[key].values.item(0), key)
-    # elif count.get(key) and key=='unknown' and count.get(key)!=label[key].values.item(0):
-    #     FN+=1
-    #     print('fn+1',count.get(key),label[key].values.item(0), key)
         
 logging.info(f'True Postive : {TP} , False Postive : {FP} , True Negtive : {TN} , False Negtive {FN}')
 
 logging.debug(f'workingDir : {os.getcwd()} , filename : {__file__} , dirname : {os.path.dirname(__file__)} , abspath : {os.path.abspath(__file__)} , base : {os.path.basename(__file__)} , dir(abs) : {os.path.dirname(os.path.abspath(__file__))}\n')
-logging.debug(f'file : {imagepathTail}\n')
 logging.info(f'pridct names:{names},Count : {count}\n')
 
 # loop over the recognized faces
@@ -137,9 +144,9 @@ for ((top, right, bottom, left), name) in zip(boxes, names):
     y = top - 15 if top - 15 > 15 else top + 15
     cv2.putText(image, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
         0.75, (0, 255, 0), 2)
-tend=time.time()
+tCompareEnd=time.time()
 
 # show the output image
 cv2.imshow("Image", image)
 cv2.waitKey(0)
-logging.info(f'recognize itme : {tend-tstart}\n')
+logging.info(f'Encoding time : {tEncodingStart-tEncodingEnd} , Comapare time : {tCompareStart-tCompareEnd} , Total recognize time : {tEncodingStart-tEncodingEnd+tCompareStart-tCompareEnd}\n')
