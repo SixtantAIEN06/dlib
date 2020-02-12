@@ -83,3 +83,4 @@ def readPara(encodings,image,detection_method):
     # show the output image
     cv2.imshow("Image", image)
     cv2.waitKey(0)
+

@@ -1,2 +1,2 @@
 import forImport_recognize_faces_image
-forImport_recognize_faces_image.readPara("encoding/encoding3.pickle",'examples/P_20200201_164242.jpg','cnn')
+a = forImport_recognize_faces_image.readPara("encoding/encoding3.pickle",'examples/P_20200201_164242.jpg','cnn')

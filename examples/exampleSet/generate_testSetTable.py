@@ -13,4 +13,4 @@ test_photo_property.loc[test_photo_property['filename'].str.match(r"\w+hao|hao")
 test_photo_property.loc[test_photo_property['filename'].str.match(r"\w+ywt|ywt"),'ywt']=1
 logging.debug(f'workingDir : {os.getcwd()} , filename : {__file__} , dirname : {os.path.dirname(__file__)} , abspath : {os.path.abspath(__file__)} , base : {os.path.basename(__file__)} , dir(abs) : {os.path.dirname(os.path.abspath(__file__))}')
 
-# test_photo_property.to_csv(os.path.dirname(__file__)+'/testSetTable.csv')
+# test_photo_property.to_csv(os.path.dirname(os.path.abspath(__file__))+'/testSetTable.csv')
