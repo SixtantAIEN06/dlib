@@ -13,7 +13,7 @@ import os
 from collections import Counter
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 
 logging.debug(f'\nworkingDir : {os.getcwd()} \n filename : {__file__} \n dirname : {os.path.dirname(__file__)} \n abspath : {os.path.abspath(__file__)} \n base : {os.path.basename(__file__)} \n dir(abs) : {os.path.dirname(os.path.abspath(__file__))}\n')
@@ -51,6 +51,7 @@ rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 tloadingEnd=time.time()
 
 
+
 # detect the (x, y)-coordinates of the bounding boxes corresponding
 # to each face in the input image, then compute the facial embeddings
 # for each face
@@ -64,7 +65,7 @@ logging.debug(f'file : {imagepathTail}\n')
 label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index_col=0)
 logging.debug(f'read csv : \n{label}\n')
 labelExt = label.loc[label['filename']==imagepathTail,:]
-logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,2:6].sum(axis="columns").values}\n')
+logging.debug(f'labelExt : \n{labelExt}\nthe sum of labelExt : {labelExt.iloc[:,2:6].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
 # setting number_of_times_to_upsample for face_locations
 locationsSize=1
 boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
@@ -73,7 +74,7 @@ encodings = face_recognition.face_encodings(rgb, boxes)
 logging.debug(f'boxes : {len(boxes)}\n')
 
 # if face_location prediction is less than records in tabel => scale up locationsSize
-while len(boxes)<labelExt.iloc[:,2:6].sum(axis="columns").values:
+while len(boxes)<labelExt.iloc[:,2:6].sum(axis="columns").values.item():
     logging.debug(f'len of boxes: {len(boxes)}\n')
     locationsSize+=1
     logging.debug(f'detection_method : {args["detection_method"]}\n locationsSize : {locationsSize}\n')
@@ -83,8 +84,8 @@ while len(boxes)<labelExt.iloc[:,2:6].sum(axis="columns").values:
     logging.debug(f'boxes_upsample : {len(boxes)}\n')
 
 # if face_location prediction is more than records in tabel => recheck the picture and revise table
-while len(boxes)>labelExt.iloc[:,2:6].sum(axis="columns").values:
-    logging.debug(f'the sum of labelExt : {labelExt.iloc[:,2:6].sum(axis="columns").values}\n')
+while len(boxes)>labelExt.iloc[:,2:6].sum(axis="columns").values.item():
+    logging.debug(f'the sum of labelExt : {labelExt.iloc[:,2:6].sum(axis="columns").values.item()}\n')
     for (top, right, bottom, left) in boxes:
         # draw the predicted face name on the image
         cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)

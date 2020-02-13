@@ -31,8 +31,8 @@ args = vars(ap.parse_args())
 
 TP_sum,FP_sum,TN_sum,FN_sum,=[0,0,0,0]
 
-for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_small')):
-    args["image"]=os.getcwd()+f'/examples/exampleSet/photo_small/{image}'
+for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo')):
+    args["image"]=os.getcwd()+f'/examples/exampleSet/photo/{image}'
     logging.debug(f'read image path:{args["image"]}\n')
     
     # load the known faces and embeddings
@@ -41,16 +41,16 @@ for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/exam
     data = pickle.loads(open(args["encodings"], "rb").read())
     # load the input image
     image = cv2.imread(args["image"])
-    # resize image's width smaller than 1024px
-    hight,width=image.shape[:2]
-    logging.debug(f'image ori width:{width},image ori hight:{hight}\n')
-    if image.shape[1]>800:
-        factor = 800/image.shape[1]
-        logging.debug(f'resize fector:{factor}\n')
-        width = 800
-        hight = round(hight*factor)
-    logging.debug(f'image transfer width:{width},image transfer hight:{hight}\n')
-    image = cv2.resize(image,(width, hight), interpolation = cv2.INTER_CUBIC)
+    # # resize image's width smaller than 1024px
+    # hight,width=image.shape[:2]
+    # logging.debug(f'image ori width:{width},image ori hight:{hight}\n')
+    # if image.shape[1]>800:
+    #     factor = 800/image.shape[1]
+    #     logging.debug(f'resize fector:{factor}\n')
+    #     width = 800
+    #     hight = round(hight*factor)
+    # logging.debug(f'image transfer width:{width},image transfer hight:{hight}\n')
+    # image = cv2.resize(image,(width, hight), interpolation = cv2.INTER_CUBIC)
     # convert it from BGR to RGB
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     tloadingEnd=time.time()
@@ -69,7 +69,7 @@ for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/exam
     label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index_col=0)
     logging.debug(f'read csv : \n{label}\n')
     labelExt = label.loc[label['filename']==imagepathTail,:]
-    logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,2:6].sum(axis="columns").values}\n')
+    logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
     # setting number_of_times_to_upsample for face_locations
     locationsSize=1
     boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
@@ -78,18 +78,50 @@ for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/exam
     logging.debug(f'boxes : {len(boxes)}\n')
 
     # if face_location prediction is less than records in tabel => scale up locationsSize
-    while len(boxes)<labelExt.iloc[:,2:6].sum(axis="columns").values:
-        logging.debug(f'len of boxes: {len(boxes)}\n')
+    while len(boxes)<labelExt.iloc[:,1:5].sum(axis="columns").values.item():
         locationsSize+=1
-        logging.debug(f'detection_method : {args["detection_method"]}\n locationsSize : {locationsSize}\n')
-        boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
-        model=args["detection_method"])
-        encodings = face_recognition.face_encodings(rgb, boxes)
-        logging.debug(f'boxes_upsample : {len(boxes)}\n')
+        if locationsSize<3:
+            logging.debug(f'face_location prediction is less than records =>\nlen of boxes: {len(boxes)}\nrecords : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nlocationsSize : {locationsSize}\n')
+            boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
+            model=args["detection_method"])
+            encodings = face_recognition.face_encodings(rgb, boxes)
+            logging.debug(f'boxes_upsample : {len(boxes)}\n')
+        else:
+            for (top, right, bottom, left) in boxes:
+                # draw the predicted face name on the image
+                cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
+                y = top - 15 if top - 15 > 15 else top + 15
+            cv2.imshow("Image", image)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+            reviseArgs = {}
+            reviseArgs['revise_or_not']=int(input('input 1 if you want to revise, input 0 if you don\'t want to revise : '))
+            if reviseArgs['revise_or_not']==0 :
+                cv2.imwrite(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail.split('.')[0]+"_pridict.jpg",image)
+                label=label.drop(index=labelExt.index.values.item())
+                logging.debug(f'label after drop : \n{label}')
+                label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+                os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+imagepathTail,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail)
+            elif reviseArgs['revise_or_not']==1:
+                reviseArgs['hao']=int(input('input the number of hao in this picture : '))
+                reviseArgs['ywt']=int(input('input the number of ywt in this picture : '))
+                reviseArgs['ford']=int(input('input the number of ford in this picture : '))
+                reviseArgs['unknown']=int(input('input the number of unknown people in this picture : '))
+                labelExt['hao']=reviseArgs['hao']
+                label.loc[label['filename']==imagepathTail,'hao']=reviseArgs['hao']
+                labelExt['ywt']=reviseArgs['ywt']
+                label.loc[label['filename']==imagepathTail,'ywt']=reviseArgs['ywt']
+                labelExt['ford']=reviseArgs['ford']
+                label.loc[label['filename']==imagepathTail,'ford']=reviseArgs['ford']
+                labelExt['unknown']=reviseArgs['unknown']
+                label.loc[label['filename']==imagepathTail,'unknown']=reviseArgs['unknown']
+                label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+            break
+
 
     # if face_location prediction is more than records in tabel => recheck the picture and revise table
-    while len(boxes)>labelExt.iloc[:,2:6].sum(axis="columns").values:
-        logging.debug(f'the sum of labelExt : {labelExt.iloc[:,2:6].sum(axis="columns").values}\n')
+    while len(boxes)>labelExt.iloc[:,1:5].sum(axis="columns").values.item():
+        logging.debug(f'\nlen of boxes: {len(boxes)}\nthe sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\n')
         for (top, right, bottom, left) in boxes:
             # draw the predicted face name on the image
             cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
@@ -98,19 +130,28 @@ for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/exam
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         reviseArgs = {}
-        reviseArgs['hao']=int(input('input the number of hao in this picture : '))
-        reviseArgs['ywt']=int(input('input the number of ywt in this picture : '))
-        reviseArgs['ford']=int(input('input the number of ford in this picture : '))
-        reviseArgs['unknown']=int(input('input the number of unknown people in this picture : '))
-        labelExt['hao']=reviseArgs['hao']
-        label.loc[label['filename']==imagepathTail,'hao']=reviseArgs['hao']
-        labelExt['ywt']=reviseArgs['ywt']
-        label.loc[label['filename']==imagepathTail,'ywt']=reviseArgs['ywt']
-        labelExt['ford']=reviseArgs['ford']
-        label.loc[label['filename']==imagepathTail,'ford']=reviseArgs['ford']
-        labelExt['unknown']=reviseArgs['unknown']
-        label.loc[label['filename']==imagepathTail,'unknown']=reviseArgs['unknown']
-        label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+        reviseArgs['revise_or_not']=int(input('input 1 if you want to revise, input 0 if you don\'t want to revise : '))
+        if reviseArgs['revise_or_not']==0 :
+            cv2.imwrite(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail.split('.')[0]+"_pridict.jpg",image)
+            label=label.drop(index=labelExt.index.values.item())
+            logging.debug(f'label after drop : \n{label}')
+            label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+            os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+imagepathTail,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail)
+        elif reviseArgs['revise_or_not']==1:
+            reviseArgs['hao']=int(input('input the number of hao in this picture : '))
+            reviseArgs['ywt']=int(input('input the number of ywt in this picture : '))
+            reviseArgs['ford']=int(input('input the number of ford in this picture : '))
+            reviseArgs['unknown']=int(input('input the number of unknown people in this picture : '))
+            labelExt['hao']=reviseArgs['hao']
+            label.loc[label['filename']==imagepathTail,'hao']=reviseArgs['hao']
+            labelExt['ywt']=reviseArgs['ywt']
+            label.loc[label['filename']==imagepathTail,'ywt']=reviseArgs['ywt']
+            labelExt['ford']=reviseArgs['ford']
+            label.loc[label['filename']==imagepathTail,'ford']=reviseArgs['ford']
+            labelExt['unknown']=reviseArgs['unknown']
+            label.loc[label['filename']==imagepathTail,'unknown']=reviseArgs['unknown']
+            label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+        break
 
 
 
@@ -187,6 +228,8 @@ for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/exam
     logging.info(f'\n True Postive : {TP} \n False Postive : {FP} \n True Negtive : {TN} \n False Negtive {FN}\n')
 
     TP_sum+=TP;FP_sum+=FP;TN_sum+=TN;FN_sum+=FN
+    
+    
     # loop over the recognized faces
     for ((top, right, bottom, left), name) in zip(boxes, names):
         # draw the predicted face name on the image
@@ -196,9 +239,21 @@ for image in sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/exam
             0.75, (0, 255, 0), 2)
     tCompareEnd=time.time()
 
-    # show the output image
-    cv2.imshow("Image", image)
-    cv2.waitKey(0)
+    # # resize image's width smaller than 1024px
+    # hight,width=image.shape[:2]
+    # logging.debug(f'image ori width:{width},image ori hight:{hight}\n')
+    # if image.shape[1]>800:
+    #     factor = 800/image.shape[1]
+    #     logging.debug(f'resize fector:{factor}\n')
+    #     width = 800
+    #     hight = round(hight*factor)
+    # logging.debug(f'image transfer width:{width},image transfer hight:{hight}\n')
+    # image = cv2.resize(image,(width, hight), interpolation = cv2.INTER_CUBIC)
+
+    # # show the output image
+    # cv2.imshow("Image", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     # show the whole processing time
     logging.info(f'\n Loading time : {tloadingEnd-tloadingStart} \n Encoding time : {tEncodingEnd-tEncodingStart} \n Comapare time : {tEncodingEnd-tEncodingStart} \n Total recognize time : {tloadingEnd-tloadingStart+tEncodingEnd-tEncodingStart+tEncodingEnd-tEncodingStart}\n')
