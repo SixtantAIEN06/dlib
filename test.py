@@ -84,11 +84,22 @@
 #     A=test()
 #     A.my_func()
 #--------------------------------------------------------------------------------------------------
-try:
-    a=5/0
-    print(a)
-except Exception as e:
-    print(e)
+# try:
+#     a=5/0
+#     print(a)
+# except Exception as e:
+#     print(type(e),type(e).__name__,e.__class__.__name__,e.__class__.__qualname__)
+#----------------------------------------------------------------
+cond=True
+a=0
+while cond :
+    for _ in range(10):
+        print(_)
+        if _>5:
+            print(f'{_}>5')
+            break
+        elif _>=8:
+            cond=False
 
 
 
