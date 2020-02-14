@@ -13,7 +13,6 @@ import os
 from collections import Counter
 import gc
 
-
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -33,7 +32,8 @@ args = vars(ap.parse_args())
 not_finish=True
 image_acceptable_width=30000
 RuntimeError_count=0
-have_not_found_best_size_of_this_divice=True
+have_not_found_best_size_of_this_divice=True    
+
 
 while not_finish:
     try:
@@ -212,44 +212,50 @@ while not_finish:
         RuntimeError_count+=1
         if RuntimeError_count == 1:
             image_acceptable_width=4096
-            gc.collect()
-            del image
         elif RuntimeError_count == 2:
             image_acceptable_width=2560
-            gc.collect()
-            del image
         elif RuntimeError_count == 3:
             image_acceptable_width=1920
-            gc.collect()
-            del image
         elif RuntimeError_count == 4:
             image_acceptable_width=1280
-            gc.collect()
-            del image
         elif RuntimeError_count == 5:
             image_acceptable_width=1024
-            gc.collect()
-            del image
         elif RuntimeError_count == 6:
             image_acceptable_width=960
-            gc.collect()
-            del image
         elif RuntimeError_count == 7:
             image_acceptable_width=800
-            gc.collect()
-            del image
         elif RuntimeError_count == 8:
             image_acceptable_width=640
-            gc.collect()
-            del image
         elif RuntimeError_count == 9:
             image_acceptable_width=480
-            gc.collect()
-            del image
         elif RuntimeError_count == 10:
             image_acceptable_width=320
-            gc.collect()
-            del image
+        else :
+            not_finish=False
+            logging.error('please change your device, or check your code\n')
+        logging.error(f'{e} happen, now image_acceptable_width is {image_acceptable_width}\n')
+    except MemoryError as e:
+        RuntimeError_count+=1
+        if RuntimeError_count == 1:
+            image_acceptable_width=4096
+        elif RuntimeError_count == 2:
+            image_acceptable_width=2560
+        elif RuntimeError_count == 3:
+            image_acceptable_width=1920
+        elif RuntimeError_count == 4:
+            image_acceptable_width=1280
+        elif RuntimeError_count == 5:
+            image_acceptable_width=1024
+        elif RuntimeError_count == 6:
+            image_acceptable_width=960
+        elif RuntimeError_count == 7:
+            image_acceptable_width=800
+        elif RuntimeError_count == 8:
+            image_acceptable_width=640
+        elif RuntimeError_count == 9:
+            image_acceptable_width=480
+        elif RuntimeError_count == 10:
+            image_acceptable_width=320
         else :
             not_finish=False
             logging.error('please change your device, or check your code\n')
