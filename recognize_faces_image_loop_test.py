@@ -25,6 +25,39 @@ def resize(image,image_acceptable_width):
     image = cv2.resize(image,(width, hight), interpolation = cv2.INTER_CUBIC)
     return image
 
+def show_image(image,boxes):
+    for (top, right, bottom, left) in boxes:
+        # draw the predicted face name on the image
+        cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 5)
+        y = top - 15 if top - 15 > 15 else top + 15
+    image=resize(image,800)
+    cv2.imshow("Image", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def revise_csv(DataFrame,file_name,reviseArgs):
+    logging.info('input the number of hao in this picture : ')
+    reviseArgs['hao']=int(input())
+    logging.info('input the number of ywt in this picture : ')
+    reviseArgs['ywt']=int(input())
+    logging.info('input the number of ford in this picture : ')
+    reviseArgs['ford']=int(input())
+    logging.info('input the number of unknown people in this picture : ')
+    reviseArgs['unknown']=int(input())
+    DataFrame.loc[label['filename']==file_name,'hao']=reviseArgs['hao']
+    DataFrame.loc[label['filename']==file_name,'ywt']=reviseArgs['ywt']
+    DataFrame.loc[label['filename']==file_name,'ford']=reviseArgs['ford']
+    DataFrame.loc[label['filename']==file_name,'unknown']=reviseArgs['unknown']
+    DataFrame.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+    return reviseArgs['hao'],reviseArgs['ywt'],reviseArgs['ford'],reviseArgs['ford']
+
+def rm_img_ow_csv(DataFrame,file_name):
+    cv2.imwrite(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+file_name.split('.')[0]+"_pridict.jpg",image)
+    DataFrame=DataFrame.drop(index=labelExt.index.values.item())
+    logging.debug(f'label after drop : \n{label}')
+    DataFrame.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
+    os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+file_name,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+file_name)
+
 try:
     logging.basicConfig(level=logging.DEBUG)
 
@@ -42,6 +75,8 @@ try:
         help="face detection model to use: either `hog` or `cnn`")
     ap.add_argument("-r", "--resolution", type=str, required=True,
         help="input the resolution")
+    # ap.add_argument("-t", "--tolerance", type=str, required=True,
+    #     help="input the tolerance")
     args = vars(ap.parse_args())
 
     input_image_list=args['image'][0].split(',')
@@ -77,8 +112,12 @@ try:
         logging.debug(f'file : {imagepathTail}\n')
         label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index_col=0)
         logging.debug(f'read csv : \n{label}\n')
-        labelExt = label.loc[label['filename']==imagepathTail,:]
-        logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
+        try:
+            labelExt = label.loc[label['filename']==imagepathTail,:]
+            logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
+        except Exception as e:
+            logging.info(f'{e.__class__.__name__} happen, check input Table or image file')
+            break
         # setting number_of_times_to_upsample for face_locations
         locationsSize=1
         boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
@@ -96,70 +135,40 @@ try:
                 encodings = face_recognition.face_encodings(rgb, boxes)
                 logging.debug(f'boxes_upsample : {len(boxes)}\n')
             else:
-                for (top, right, bottom, left) in boxes:
-                    # draw the predicted face name on the image
-                    cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
-                    y = top - 15 if top - 15 > 15 else top + 15
-                cv2.imshow("Image", image)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
+                show_image(image,boxes)
                 reviseArgs = {}
-                reviseArgs['revise_or_not']=int(input('input 1 if you want to revise, input 0 if you don\'t want to revise : '))
+                logging.info('input 1 if you want to revise, input 0 if you don\'t want to revise : ')
+                reviseArgs['revise_or_not']=int(input())
                 if reviseArgs['revise_or_not']==0 :
-                    cv2.imwrite(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail.split('.')[0]+"_pridict.jpg",image)
-                    label=label.drop(index=labelExt.index.values.item())
-                    logging.debug(f'label after drop : \n{label}')
-                    label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
-                    os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+imagepathTail,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail)
+                    rm_img_ow_csv(label,imagepathTail)
                 elif reviseArgs['revise_or_not']==1:
-                    reviseArgs['hao']=int(input('input the number of hao in this picture : '))
-                    reviseArgs['ywt']=int(input('input the number of ywt in this picture : '))
-                    reviseArgs['ford']=int(input('input the number of ford in this picture : '))
-                    reviseArgs['unknown']=int(input('input the number of unknown people in this picture : '))
+                    logging.debug(f'{reviseArgs}\n')
+                    reviseArgs['hao'],reviseArgs['ywt'],reviseArgs['ford'],reviseArgs['ford']=revise_csv(label,imagepathTail,reviseArgs)
+                    logging.debug(f'{reviseArgs}\n')
                     labelExt['hao']=reviseArgs['hao']
-                    label.loc[label['filename']==imagepathTail,'hao']=reviseArgs['hao']
                     labelExt['ywt']=reviseArgs['ywt']
-                    label.loc[label['filename']==imagepathTail,'ywt']=reviseArgs['ywt']
                     labelExt['ford']=reviseArgs['ford']
-                    label.loc[label['filename']==imagepathTail,'ford']=reviseArgs['ford']
                     labelExt['unknown']=reviseArgs['unknown']
-                    label.loc[label['filename']==imagepathTail,'unknown']=reviseArgs['unknown']
-                    label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
                 break
 
 
         # if face_location prediction is more than records in tabel => recheck the picture and revise table
         while len(boxes)>labelExt.iloc[:,1:5].sum(axis="columns").values.item():
             logging.debug(f'\nlen of boxes: {len(boxes)}\nthe sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\n')
-            for (top, right, bottom, left) in boxes:
-                # draw the predicted face name on the image
-                cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
-                y = top - 15 if top - 15 > 15 else top + 15
-            cv2.imshow("Image", image)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            show_image(image,boxes)
             reviseArgs = {}
-            reviseArgs['revise_or_not']=int(input('input 1 if you want to revise, input 0 if you don\'t want to revise : '))
+            logging.info('input 1 if you want to revise, input 0 if you don\'t want to revise : ')
+            reviseArgs['revise_or_not']=int(input())
             if reviseArgs['revise_or_not']==0 :
-                cv2.imwrite(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail.split('.')[0]+"_pridict.jpg",image)
-                label=label.drop(index=labelExt.index.values.item())
-                logging.debug(f'label after drop : \n{label}')
-                label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
-                os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+imagepathTail,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+imagepathTail)
-            elif reviseArgs['revise_or_not']==1:
-                reviseArgs['hao']=int(input('input the number of hao in this picture : '))
-                reviseArgs['ywt']=int(input('input the number of ywt in this picture : '))
-                reviseArgs['ford']=int(input('input the number of ford in this picture : '))
-                reviseArgs['unknown']=int(input('input the number of unknown people in this picture : '))
+                rm_img_ow_csv(label,imagepathTail)
+            elif reviseArgs['revise_or_not']==1 :
+                logging.debug(f'{reviseArgs}\n')
+                reviseArgs['hao'],reviseArgs['ywt'],reviseArgs['ford'],reviseArgs['ford']=revise_csv(label,imagepathTail,reviseArgs)
+                logging.debug(f'{reviseArgs}\n')
                 labelExt['hao']=reviseArgs['hao']
-                label.loc[label['filename']==imagepathTail,'hao']=reviseArgs['hao']
                 labelExt['ywt']=reviseArgs['ywt']
-                label.loc[label['filename']==imagepathTail,'ywt']=reviseArgs['ywt']
                 labelExt['ford']=reviseArgs['ford']
-                label.loc[label['filename']==imagepathTail,'ford']=reviseArgs['ford']
                 labelExt['unknown']=reviseArgs['unknown']
-                label.loc[label['filename']==imagepathTail,'unknown']=reviseArgs['unknown']
-                label.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index=True,header=True)
             break
 
 
@@ -269,11 +278,14 @@ try:
     logging.info(f'\nTP sum = {TP_sum} \n FP sum = {FP_sum} \n TN sum = {TN_sum} \n FN sum = {FN_sum}')
 
     conf_matrix=pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index_col=0)
-    conf_matrix.loc['T','P']=TP_sum+conf_matrix.loc['T','P']
-    conf_matrix.loc['F','P']=FP_sum+conf_matrix.loc['F','P']
-    conf_matrix.loc['T','N']=TN_sum+conf_matrix.loc['T','N']
-    conf_matrix.loc['F','N']=FN_sum+conf_matrix.loc['F','N']
+    t=0.4
+    conf_matrix=conf_matrix.set_index(['predict'],drop=True,append=True)
+    conf_matrix.loc[(f'Tole:{t}','T'),'P']=TP_sum+conf_matrix.loc[(f'Tole:{t}','T'),'P']
+    conf_matrix.loc[(f'Tole:{t}','F'),'P']=FP_sum+conf_matrix.loc[(f'Tole:{t}','F'),'P']
+    conf_matrix.loc[(f'Tole:{t}','T'),'N']=TN_sum+conf_matrix.loc[(f'Tole:{t}','T'),'N']
+    conf_matrix.loc[(f'Tole:{t}','F'),'N']=FN_sum+conf_matrix.loc[(f'Tole:{t}','F'),'N']
     conf_matrix.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index=True,header=True) 
+    logging.debug('conf_M OW')
     print('recognize finish\n')
 except Exception as e:
     print(e.__class__.__name__,'\n')
