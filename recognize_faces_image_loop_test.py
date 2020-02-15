@@ -79,13 +79,13 @@ try:
         help="input the tolerance")
     args = vars(ap.parse_args())
 
-    logging.debug(f'args["tolerance"] : {args["tolerance"]}')
+    logging.info(f'args["tolerance"] : {args["tolerance"]}')
 
 
     input_image_list=args['image'][0].split(',')
     image_acceptable_width=int(args['resolution'])
     TP_sum,FP_sum,TN_sum,FN_sum,=[0,0,0,0]
-    tolerance=int(args["tolerance"])
+    tolerance=float(args["tolerance"])
 
     for image in input_image_list:
         args["image"]=os.getcwd()+f'/examples/exampleSet/photo/{image}'
@@ -113,15 +113,14 @@ try:
         tEncodingStart=time.time()
         #extract image file's name
         imagepathTail=os.path.split(args["image"])[1]
-        logging.debug(f'file : {imagepathTail}\n')
+        logging.info(f'file : {imagepathTail}\n')
         label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index_col=0)
         logging.debug(f'read csv : \n{label}\n')
         try:
             labelExt = label.loc[label['filename']==imagepathTail,:]
             logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
-        except Exception as e:
-            logging.info(f'{e.__class__.__name__} happen, check input Table or image file')
-            break
+        except ValueError as e:
+            logging.error(f'{e.__class__.__name__} happen, check input Table or image file')
         # setting number_of_times_to_upsample for face_locations
         locationsSize=1
         boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
@@ -132,13 +131,13 @@ try:
         # if face_location prediction is less than records in tabel => scale up locationsSize
         while len(boxes)<labelExt.iloc[:,1:5].sum(axis="columns").values.item():
             locationsSize+=1
-            if locationsSize<3:
+            try :
                 logging.debug(f'face_location prediction is less than records =>\nlen of boxes: {len(boxes)}\nrecords : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nlocationsSize : {locationsSize}\n')
                 boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
                 model=args["detection_method"])
                 encodings = face_recognition.face_encodings(rgb, boxes)
                 logging.debug(f'boxes_upsample : {len(boxes)}\n')
-            else:
+            except :
                 show_image(image,boxes)
                 reviseArgs = {}
                 logging.info('input 1 if you want to revise, input 0 if you don\'t want to revise : ')
@@ -291,4 +290,6 @@ try:
     logging.debug('conf_M OW')
     print('recognize finish\n')
 except Exception as e:
-    print(e.__class__.__name__,'\n')
+    print(e,'\n',e.__class__.__name__,'\n')
+    with open(f'{os.path.dirname(os.path.abspath(__file__))}/error_log.txt','a') as f :
+        f.write(f'{e},\n{e.__class__.__name__},\n')

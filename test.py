@@ -101,18 +101,29 @@
 #         elif _>=8:
 #             cond=False
 #-------------------------------------------------------------------------------------------------
-l1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
-l2=[0,1,2,3,4,5,6,7,8,9]
-bs=4
-cond=True
-while cond:
-    for _ in range(0,len(l1)+1,bs):
-        print(_)
-        a=bs*(len(l1)//bs)
+# l1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+# l2=[0,1,2,3,4,5,6,7,8,9]
+# bs=4
+# cond=True
+# while cond:
+#     for _ in range(0,len(l1)+1,bs):
+#         print(_)
+#         a=bs*(len(l1)//bs)
+#         print(a)
+#         if _==(bs*(len(l1)//bs)):
+#             cond=False
+#-------------------------------------------------------------------------------
+it=5
+while True :
+    it-=1
+    try:
+        a=1/it
         print(a)
-        if _==(bs*(len(l1)//bs)):
-            cond=False
-    
+    except:
+        print("it should be finised")
+        break
+
+
 
 
 
