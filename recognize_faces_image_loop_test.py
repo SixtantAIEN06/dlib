@@ -75,13 +75,17 @@ try:
         help="face detection model to use: either `hog` or `cnn`")
     ap.add_argument("-r", "--resolution", type=str, required=True,
         help="input the resolution")
-    # ap.add_argument("-t", "--tolerance", type=str, required=True,
-    #     help="input the tolerance")
+    ap.add_argument("-t", "--tolerance", type=str, required=True,
+        help="input the tolerance")
     args = vars(ap.parse_args())
+
+    logging.debug(f'args["tolerance"] : {args["tolerance"]}')
+
 
     input_image_list=args['image'][0].split(',')
     image_acceptable_width=int(args['resolution'])
     TP_sum,FP_sum,TN_sum,FN_sum,=[0,0,0,0]
+    tolerance=int(args["tolerance"])
 
     for image in input_image_list:
         args["image"]=os.getcwd()+f'/examples/exampleSet/photo/{image}'
@@ -184,7 +188,7 @@ try:
             # attempt to match each face in the input image to our known
             # encodings
             matches = face_recognition.compare_faces(data["encodings"],
-                encoding,tolerance=0.4)
+                encoding,tolerance=tolerance)
             logging.debug(f'mathces : {matches}\n')
             name = "unknown"
 
@@ -278,12 +282,11 @@ try:
     logging.info(f'\nTP sum = {TP_sum} \n FP sum = {FP_sum} \n TN sum = {TN_sum} \n FN sum = {FN_sum}')
 
     conf_matrix=pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index_col=0)
-    t=0.4
     conf_matrix=conf_matrix.set_index(['predict'],drop=True,append=True)
-    conf_matrix.loc[(f'Tole:{t}','T'),'P']=TP_sum+conf_matrix.loc[(f'Tole:{t}','T'),'P']
-    conf_matrix.loc[(f'Tole:{t}','F'),'P']=FP_sum+conf_matrix.loc[(f'Tole:{t}','F'),'P']
-    conf_matrix.loc[(f'Tole:{t}','T'),'N']=TN_sum+conf_matrix.loc[(f'Tole:{t}','T'),'N']
-    conf_matrix.loc[(f'Tole:{t}','F'),'N']=FN_sum+conf_matrix.loc[(f'Tole:{t}','F'),'N']
+    conf_matrix.loc[(f'Tole:{tolerance}','T'),'P']=TP_sum+conf_matrix.loc[(f'Tole:{tolerance}','T'),'P']
+    conf_matrix.loc[(f'Tole:{tolerance}','F'),'P']=FP_sum+conf_matrix.loc[(f'Tole:{tolerance}','F'),'P']
+    conf_matrix.loc[(f'Tole:{tolerance}','T'),'N']=TN_sum+conf_matrix.loc[(f'Tole:{tolerance}','T'),'N']
+    conf_matrix.loc[(f'Tole:{tolerance}','F'),'N']=FN_sum+conf_matrix.loc[(f'Tole:{tolerance}','F'),'N']
     conf_matrix.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index=True,header=True) 
     logging.debug('conf_M OW')
     print('recognize finish\n')
