@@ -21,18 +21,22 @@ for _ in range(1,11):
                     print(f"batch : {_}")
                     input_image=image_file_list[_:_+batch_size]
                     input_image=",".join(input_image)
-                    recog=sp.Popen(['python3','recognize_faces_image_loop_test.py','-e','encoding/encoding3.pickle','-i',input_image,'-r',image_acceptable_width,"-t",tolerance],stdout=sp.PIPE)
+                    recog=sp.Popen(['python3','recognize_faces_image_loop_test.py','-e','encoding/encoding3.pickle','-i',input_image,'-iw',image_acceptable_width,"-t",tolerance],stdout=sp.PIPE)
                     res = recog.communicate()
                     # for line in res[0].decode(encoding='utf-8').split('\n'):
                     #     print(line)
                     iteration_successful=False
                     status=res[0].decode(encoding='utf-8').split('\n')[-3].replace(" ","")
                     logging.info(f'recieve : {status}')
-                    error_message=res[0].decode(encoding='utf-8').split('\n')[-4]
-                    logging.error(f'error message : {error_message}')
+                    
+
                     if _==(batch_size*(len(image_file_list)//batch_size)):
                         cond=False
+                    
+
                     if status=="RuntimeError" or status=="MemoryError":
+                        error_message=res[0].decode(encoding='utf-8').split('\n')[-4]
+                        logging.error(f'error message : {error_message}')
                         RuntimeError_count+=1
                         if RuntimeError_count == 1:
                             image_acceptable_width=str(4096)

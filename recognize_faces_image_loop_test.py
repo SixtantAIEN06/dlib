@@ -73,8 +73,8 @@ try:
         help="path to input image")
     ap.add_argument("-d", "--detection-method", type=str, default="cnn",
         help="face detection model to use: either `hog` or `cnn`")
-    ap.add_argument("-r", "--resolution", type=str, required=True,
-        help="input the resolution")
+    ap.add_argument("-iw", "--image_width", type=str, required=True,
+        help="input the image_width")
     ap.add_argument("-t", "--tolerance", type=str, required=True,
         help="input the tolerance")
     args = vars(ap.parse_args())
@@ -82,13 +82,15 @@ try:
     logging.info(f'args["tolerance"] : {args["tolerance"]}')
 
 
+    # setting parameters
     input_image_list=args['image'][0].split(',')
-    image_acceptable_width=int(args['resolution'])
+    image_acceptable_width=int(args['image_width'])
+    args["tolerance"]=float(args["tolerance"])
     TP_sum,FP_sum,TN_sum,FN_sum,=[0,0,0,0]
-    tolerance=float(args["tolerance"])
+    num_jitters=1
 
     for image in input_image_list:
-        args["image"]=os.getcwd()+f'/examples/exampleSet/photo/{image}'
+        args["image"]=os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/photo/{image}'
         logging.debug(f'read image path:{args["image"]}\n')
         
         # load the known faces and embeddings
@@ -116,16 +118,20 @@ try:
         logging.info(f'file : {imagepathTail}\n')
         label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index_col=0)
         logging.debug(f'read csv : \n{label}\n')
+        
+        # check if the image file response to the testSetTable.csv
         try:
             labelExt = label.loc[label['filename']==imagepathTail,:]
             logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
         except ValueError as e:
             logging.error(f'{e.__class__.__name__} happen, check input Table or image file')
+            break
+        
         # setting number_of_times_to_upsample for face_locations
         locationsSize=1
         boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
         model=args["detection_method"])
-        encodings = face_recognition.face_encodings(rgb, boxes)
+        encodings = face_recognition.face_encodings(rgb, boxes,num_jitters=num_jitters)
         logging.debug(f'boxes : {len(boxes)}\n')
 
         # if face_location prediction is less than records in tabel => scale up locationsSize
@@ -135,7 +141,7 @@ try:
                 logging.debug(f'face_location prediction is less than records =>\nlen of boxes: {len(boxes)}\nrecords : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nlocationsSize : {locationsSize}\n')
                 boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
                 model=args["detection_method"])
-                encodings = face_recognition.face_encodings(rgb, boxes)
+                encodings = face_recognition.face_encodings(rgb, boxes,num_jitters=num_jitters)
                 logging.debug(f'boxes_upsample : {len(boxes)}\n')
             except :
                 show_image(image,boxes)
@@ -187,7 +193,7 @@ try:
             # attempt to match each face in the input image to our known
             # encodings
             matches = face_recognition.compare_faces(data["encodings"],
-                encoding,tolerance=tolerance)
+                encoding,tolerance=args["tolerance"])
             logging.debug(f'mathces : {matches}\n')
             name = "unknown"
 
@@ -223,8 +229,8 @@ try:
         # assuming the following sitution won't happen: 
         # the person_A who is labeled in encoding set shows up in the image but was missed by compare_faces(), and compare_faces() recognize some other people as person_A
         TP,FP,TN,FN=[0,0,0,0]
-        for key in labelExt.columns[2:6]:
-            print(count.get(key),labelExt[key].values.item(0), key,'\n============================================\n')
+        for key in labelExt.columns[1:5]:
+            logging.debug(f'{key}\'s prediction : {count.get(key)}, true amount :{labelExt[key].values.item(0)}, \n============================================\n')
             # unknown is negative
             if key=='unknown':       
                 # predictions of unknown people is more than records in table, the deviation is FN
@@ -277,19 +283,81 @@ try:
         # cv2.destroyAllWindows()
 
         # show the whole processing time
-        logging.info(f'\n Loading time : {tloadingEnd-tloadingStart} \n Encoding time : {tEncodingEnd-tEncodingStart} \n Comapare time : {tEncodingEnd-tEncodingStart} \n Total recognize time : {tloadingEnd-tloadingStart+tEncodingEnd-tEncodingStart+tEncodingEnd-tEncodingStart}\n')
+        tl=tloadingEnd-tloadingStart
+        te=tEncodingEnd-tEncodingStart
+        tc=tCompareEnd-tCompareStart
+        tt=tl+te+tc
+        logging.info(f'\n Loading time : {tl} \n Encoding time : {te} \n Comapare time : {tc} \n Total recognize time : {tt}\n')
+
+        # # save timming to timing_log.csv
+        # timing_log=pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/timing_log.csv',index_col=0)
+        # timing_log=timing_log.set_index(['num_jitters','tolerance'],drop=True,append=True)
+        # # if timing_log.csv doesn't have the specific rows
+        # logging.debug(f'\n{timing_log}')
+        # over_write_timing_csv=False
+        # while not over_write_timing_csv:
+        #     try:
+        #         tl_row=timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'loading']
+        #         logging.debug(f'start over writing timing_log.csv\n')
+        #         te_row=timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'encoding']
+        #         tc_row=timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'comparing']
+        #         tt_row=timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'total']
+
+        #         tl_row=tl+tl_row
+        #         te_row=te+te_row
+        #         tc_row=tc+tc_row
+        #         tt_row=tt+tt_row
+        #         logging.debug(f'\n{timing_log}\n')
+        #         timing_log.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/timing_log.csv',index=True,header=True)
+        #         logging.info('timing_log.csv has been over write')
+        #         over_write_timing_csv=True
+        #     except:
+        #         logging.debug(f'revise timing_log.csv unassigned rows\n')
+        #         timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'loading']=0
+        #         timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'encoding']=0
+        #         timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'comparing']=0
+        #         timing_log.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}'),'total']=0
+        #         logging.debug(f'finish revise timing_log.csv unassigned rows\n')
+        
+
     logging.info(f'\nTP sum = {TP_sum} \n FP sum = {FP_sum} \n TN sum = {TN_sum} \n FN sum = {FN_sum}')
 
+    # save TP_sum, FP_sum, TN_sum, FN_sum to Confusion_matrix.csv
     conf_matrix=pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index_col=0)
-    conf_matrix=conf_matrix.set_index(['predict'],drop=True,append=True)
-    conf_matrix.loc[(f'Tole:{tolerance}','T'),'P']=TP_sum+conf_matrix.loc[(f'Tole:{tolerance}','T'),'P']
-    conf_matrix.loc[(f'Tole:{tolerance}','F'),'P']=FP_sum+conf_matrix.loc[(f'Tole:{tolerance}','F'),'P']
-    conf_matrix.loc[(f'Tole:{tolerance}','T'),'N']=TN_sum+conf_matrix.loc[(f'Tole:{tolerance}','T'),'N']
-    conf_matrix.loc[(f'Tole:{tolerance}','F'),'N']=FN_sum+conf_matrix.loc[(f'Tole:{tolerance}','F'),'N']
-    conf_matrix.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index=True,header=True) 
-    logging.debug('conf_M OW')
+    logging.info(f'read confusion_matrix.csv successfully\n')
+    conf_matrix=conf_matrix.set_index(['num_jitters','tolerance','prediction'],drop=True,append=True)
+
+    # if Confusion_matrix.csv doesn't have the specific rows
+    over_write_cfm_csv=False
+    while not over_write_cfm_csv:
+        try :
+            logging.debug(f'\n{conf_matrix}\n')
+            tp_row=conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','T'),'P']
+            fp_row=conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','F'),'P']
+            tn_row=conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','T'),'N']
+            fn_row=conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','F'),'N']
+
+            tp_row=TP_sum+tp_row
+            fp_row=FP_sum+fp_row
+            tn_row=TN_sum+tn_row
+            fn_row=FN_sum+fn_row
+
+            conf_matrix.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index=True,header=True) 
+            
+            logging.info('confusion_matrix has been over write')
+            over_write_cfm_csv=True
+        except :
+            logging.debug(f'revise confusion_matrix.csv unassigned rows')
+            conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','T'),'P']=0
+            conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','F'),'P']=0
+            conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','T'),'N']=0
+            conf_matrix.loc[(f'{args["encodings"]}',f'{num_jitters}',f'{args["tolerance"]}','F'),'N']=0
+    
+    # pass recognize finish to batch_read.py
     print('recognize finish\n')
 except Exception as e:
     print(e,'\n',e.__class__.__name__,'\n')
+    
+    #save error messame to error_log.txt
     with open(f'{os.path.dirname(os.path.abspath(__file__))}/error_log.txt','a') as f :
         f.write(f'{e},\n{e.__class__.__name__},\n')
