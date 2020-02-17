@@ -42,24 +42,40 @@ for _ in range(1,11):
                 if res[0].decode(encoding='utf-8').split('\n')[-3]:
                     status=res[0].decode(encoding='utf-8').split('\n')[-3].replace(" ","")
                     logging.info(f'recieve : {status}\n')
-                    logging.info(f'{input_image} has been processed')
+                    logging.info(f'{input_image} has been processed\n-------------------------------------------------\n')
                 else:
                     status="unknown error please turn on the output all stdout or stderr"
+                    logging.info(f'recieve : {status}\n')
 
 
-                #
-                if _==last_num and len(image_file_list)>last_num:
-                    for _ in range(last_num+1,len(image_file_list)):
-                        print(f"batch : last batch,from now on ,this process would execute in batch_size==1")
-                        input_image=image_file_list[_:len(image_file_list)]
-                        input_image=",".join(input_image)
-                        recog=sp.Popen(['python3','recognize_faces_image_loop_test.py','-e','encoding/encoding3.pickle','-i',input_image,'-iw',image_acceptable_width,"-t",tolerance],stdout=sp.PIPE)
-                        res = recog.communicate()
-                        for line in res[0].decode(encoding='utf-8').split('\n'):
-                            print(line)
-                        iteration_successful=False
-                        status=res[0].decode(encoding='utf-8').split('\n')[-3].replace(" ","")
-                        logging.info(f'recieve : {status}\n')
+                # if _==last_num and len(image_file_list)>last_num:
+                #     for _ in range(last_num+batch_size,len(image_file_list)+1):
+                #         print(f"batch : last batch,from now on ,this process would execute in batch_size==1")
+                #         input_image=image_file_list[_]
+                #         # input_image=",".join(input_image)
+                #         recog=sp.Popen(['python3','recognize_faces_image_loop_test.py','-e','encoding/encoding3.pickle','-i',input_image,'-iw',image_acceptable_width,"-t",tolerance],stdout=sp.PIPE)
+                #         res = recog.communicate()
+                #         ##--------------------------uncomment this section to output all stdout or stderr----------------------
+                #         ## if the folloing code does't work, please add the "stderr=sp.PIPE" in the end of sp.Popen
+                #         # if res[1]==None :
+                #         #     print('--------------------------res[0]--------------------------\n')
+                #         #     for line in res[0].decode(encoding='utf-8').split('\n'):
+                #         #         print(line)
+                #         # else:
+                #         #     print('--------------------------res[1]--------------------------\n')
+                #         #     for line in res[1].decode(encoding='utf-8').split('\n'):
+                #         #         print(line)
+                #         # print('----------------------------res fin----------------------------\n')
+                #         ##--------------------------uncomment this section to output all stdout or stderr----------------------
+                        
+                #         iteration_successful=False
+                #         if res[0].decode(encoding='utf-8').split('\n')[-3]:
+                #             status=res[0].decode(encoding='utf-8').split('\n')[-3].replace(" ","")
+                #             logging.info(f'recieve : {status}\n')
+                #             logging.info(f'{input_image} has been processed')
+                #         else:
+                #             status="unknown error please turn on the output all stdout or stderr"
+                #             logging.info(f'recieve : {status}\n')
                 
 
                 if status=="RuntimeError" or status=="MemoryError":
