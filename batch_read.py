@@ -8,7 +8,14 @@ image_acceptable_width=str(30000)
 
 logging.basicConfig(level=logging.INFO)
 
+stop_image_iteration=False
+stop_tol_iteration=False
+
 for _ in range(1,11):
+    if not stop_tol_iteration :
+        continue
+    else:
+        break
     tolerance=str(_/10)
     cond=True
     batch_size=10
@@ -16,6 +23,11 @@ for _ in range(1,11):
     RuntimeError_count=0
     
     for _ in range(0,len(image_file_list),batch_size):
+        if not stop_image_iteration :
+            continue
+        else:
+            stop_tol_iteration=True
+            break
         iteration_successful=False
         while not iteration_successful:
             try :
@@ -119,10 +131,14 @@ for _ in range(1,11):
                     logging.error(f'{status} happened, now image_acceptable_width is {image_acceptable_width}\n')
                     raise StopIteration
                 
+                if status=="ValueError":
+                    raise StopIteration
+
                 recog.kill()
                 iteration_successful=True
             except StopIteration:
-                iteration_successful=False
+                stop_image_iteration=True
+                break
             except Exception as e:
                 logging.info(f'-----------------other Exception-------------')
                 print(e,'\n',e.__class__.__name__,'\n')

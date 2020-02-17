@@ -127,7 +127,8 @@ try:
             labelExt = label.loc[label['filename']==imagepathTail,:]
             logging.debug(f'labelExt : \n{labelExt}\n the sum of labelExt : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nindex of labelExt : {labelExt.index.values.item()}\n')
         except ValueError as e:
-            logging.error(f'{e.__class__.__name__} happen, check input Table or image file')
+            # logging.error(f'{e.__class__.__name__} happen, check input Table or image file')
+            print(e,'\n',e.__class__.__name__,'\n')
             break
         
         # setting number_of_times_to_upsample for face_locations
