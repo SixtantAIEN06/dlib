@@ -1,0 +1,300 @@
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : recognize_finish
+
+batch_read--INFO
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO
+recieve : MemoryError
+
+batch_read--INFO
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR
+error message : std::bad_alloc 

@@ -90,31 +90,42 @@
 # except Exception as e:
 #     print(type(e),type(e).__name__,e.__class__.__name__,e.__class__.__qualname__)
 #-------------------------------------------------------------------------------------------------
+cond=True
+a=0
+while cond :
+    for _ in range(10):
+        print(_)
+        if _>5:
+            print(f'{_}>5')
+            break
+        elif _>=8:
+            cond=False
+#-------------------------------------------------------------------------------------------------
 # cond=True
 # a=0
+# li1=[2,4,5]
 # while cond :
 #     for _ in range(10):
-#         print(_)
-#         if _>5:
-#             print(f'{_}>5')
-#             break
+#         if _ in li1:
+#             continue
 #         elif _>=8:
 #             cond=False
+#         print(_)
 #-------------------------------------------------------------------------------------------------
-l1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]
-l2=[0,1,2,3,4,5,6,7,8,9]
-bs=5
-last_batch=(bs*(len(l1)//bs-1))
-cond=True
-while cond:
-    for _ in range(0,len(l1),bs):
-        print(_)
-        print(l1[_:_+bs])
-        # if _==last_batch and len(l1)>last_batch:
-        #     for _ in range(last_batch+1,len(l1)):
-        #         print(_)
-        #         print('l1 : ',l1[_])
-    cond=False
+# l1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]
+# l2=[0,1,2,3,4,5,6,7,8,9]
+# bs=5
+# last_batch=(bs*(len(l1)//bs-1))
+# cond=True
+# while cond:
+#     for _ in range(0,len(l1),bs):
+#         print(_)
+#         print(l1[_:_+bs])
+#         # if _==last_batch and len(l1)>last_batch:
+#         #     for _ in range(last_batch+1,len(l1)):
+#         #         print(_)
+#         #         print('l1 : ',l1[_])
+#     cond=False
 #-------------------------------------------------------------------------------
 # it=5
 # while True :
@@ -125,7 +136,15 @@ while cond:
 #     except:
 #         print("it should be finised")
 #         break
+##------------------------------------------------------------------------------
+# import sys, os
 
+# try:
+#     raise NotImplementedError("No error")
+# except Exception as e:
+#     exc_type, exc_obj, exc_tb = sys.exc_info()
+#     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+#     print(exc_type, fname, exc_tb.tb_lineno)
 
 
 

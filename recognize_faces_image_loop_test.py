@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 import os
 from collections import Counter
+import sys
 
 
 def resize(image,image_acceptable_width):
@@ -60,7 +61,7 @@ def rm_img_ow_csv(DataFrame,file_name):
     os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+file_name,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+file_name)
 
 try:
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_recog_loog.txt')
 
 
     logging.debug(f'\nworkingDir : {os.getcwd()} \n filename : {__file__} \n dirname : {os.path.dirname(__file__)} \n abspath : {os.path.abspath(__file__)} \n base : {os.path.basename(__file__)} \n dir(abs) : {os.path.dirname(os.path.abspath(__file__))}\n')
@@ -84,15 +85,15 @@ try:
     input_image_list=args["image"][0].split(',')
     image_acceptable_width=int(args['image_width'])
     args["tolerance"]=float(args["tolerance"])
-    logging.info(f'input_image_list : \n{input_image_list}')
+    logging.info(f'input_image_list : \n{input_image_list}\n')
     TP_sum,FP_sum,TN_sum,FN_sum,=[0,0,0,0]
     num_jitters=1
 
     for image in input_image_list:
-        args["image"]=os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/photo/{image}'
-        logging.debug(f'read image path:{args["image"]}\n')
         logging.info(f'----------------------image--------------------------------')
         logging.info(f'args["tolerance"] : {args["tolerance"]}\n')
+        args["image"]=os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/photo/{image}'
+        logging.debug(f'read image path:{args["image"]}\n')
         #extract image file's name
         imagepathTail=os.path.split(args["image"])[1]
         logging.info(f'file : {imagepathTail}\n')
@@ -241,22 +242,22 @@ try:
             if key=='unknown':       
                 # predictions of unknown people is more than records in table, the deviation is FN
                 if count.get(key) and count.get(key)>=labelExt[key].values.item(0):
-                    TN =labelExt[key].values.item(0)
-                    FN = count.get(key)-labelExt[key].values.item(0)
+                    TN =labelExt[key].values.item(0)+TN
+                    FN = count.get(key)-labelExt[key].values.item(0)+FN
                 # predictions of unknown people is less than records in table => there are some unknown people is regarded as some labeled people(FP)
                 elif count.get(key) and count.get(key)<labelExt[key].values.item(0):
-                    TN = count.get(key)
-                    FN = 0
+                    TN = count.get(key)+TN
+                    FN = 0+FN
             # other than unknown is positive 
             elif key!='unknown':
                 #  predictions of labeled people is more than records in table, the deviation is FP
                 if count.get(key) and count.get(key)>=labelExt[key].values.item(0):
-                    TP = labelExt[key].values.item(0)
-                    FP = count.get(key)-labelExt[key].values.item(0)
+                    TP = labelExt[key].values.item(0)+TP
+                    FP = count.get(key)-labelExt[key].values.item(0)+FP
                 # predictions of labeled people is less than records in table => there are some labeled people is regarded as some unknown people(FN)
                 elif count.get(key) and count.get(key)<labelExt[key].values.item(0):
-                    TP = count.get(key)
-                    FP = 0
+                    TP = count.get(key)+TP
+                    FP = 0+FP
                 
         logging.info(f'\n True Postive : {TP} \n False Postive : {FP} \n True Negtive : {TN} \n False Negtive {FN}\n')
 
@@ -360,9 +361,10 @@ try:
             conf_matrix.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}','F'),'N']=0
     
     # pass recognize finish to batch_read.py
-    print('recognize finish\n')
+    print('recognize_finish\n')
 except Exception as e:
-    print(e,'\n',e.__class__.__name__,'\n')
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    print(exc_tb.tb_lineno,'\n',e,'\n',e.__class__.__name__,'\n')
     
     #save error messame to error_log.txt
     with open(f'{os.path.dirname(os.path.abspath(__file__))}/error_log.txt','a') as f :
