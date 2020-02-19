@@ -90,16 +90,16 @@
 # except Exception as e:
 #     print(type(e),type(e).__name__,e.__class__.__name__,e.__class__.__qualname__)
 #-------------------------------------------------------------------------------------------------
-cond=True
-a=0
-while cond :
-    for _ in range(10):
-        print(_)
-        if _>5:
-            print(f'{_}>5')
-            break
-        elif _>=8:
-            cond=False
+# cond=True
+# a=0
+# while cond :
+#     for _ in range(10):
+#         print(_)
+#         if _>5:
+#             print(f'{_}>5')
+#             break
+#         elif _>=8:
+#             cond=False
 #-------------------------------------------------------------------------------------------------
 # cond=True
 # a=0
@@ -145,7 +145,18 @@ while cond :
 #     exc_type, exc_obj, exc_tb = sys.exc_info()
 #     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 #     print(exc_type, fname, exc_tb.tb_lineno)
+#--------------------------------------------------------------------------------------
+import os
+import subprocess as sp
+import logging
+import re
 
+encoding_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/encoding'))
+r=re.compile("\w+[^all]\_nj\w+\.pickle")
+li1=sorted(list(filter(r.match,encoding_file_list)))
+# for _ in encoding_file_list:
+#     re.findall("\w+\_nj\w+\.pickle",)
+print(li1)
 
 
 
