@@ -61,7 +61,7 @@ def rm_img_ow_csv(DataFrame,file_name):
     os.replace(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo/'+file_name,os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo_cant_read/'+file_name)
 
 try:
-    logging.basicConfig(level=logging.INFO,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_recog_loog.txt')
+    logging.basicConfig(level=logging.INFO,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_recog_loop.txt')
 
 
     logging.debug(f'\nworkingDir : {os.getcwd()} \n filename : {__file__} \n dirname : {os.path.dirname(__file__)} \n abspath : {os.path.abspath(__file__)} \n base : {os.path.basename(__file__)} \n dir(abs) : {os.path.dirname(os.path.abspath(__file__))}\n')
@@ -91,7 +91,7 @@ try:
 
     for image in input_image_list:
         logging.info(f'----------------------image--------------------------------')
-        logging.info(f'args["tolerance"] : {args["tolerance"]}\n')
+        logging.info(f'args["encodings"] : {args["encodings"]}, args["tolerance"] : {args["tolerance"]}, num_jitters : {num_jitters}\n')
         args["image"]=os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/photo/{image}'
         logging.debug(f'read image path:{args["image"]}\n')
         #extract image file's name
@@ -117,8 +117,7 @@ try:
         # for each face
         logging.info("[INFO] recognizing faces...\n")
 
-        # Encoding timing
-        tEncodingStart=time.time()
+        
         # loading testSetTable.csv
         label = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/testSetTable.csv',index_col=0)
         logging.debug(f'read csv : \n{label}\n')
@@ -134,19 +133,32 @@ try:
         
         # setting number_of_times_to_upsample for face_locations
         locationsSize=1
+        # Detection timing
+        tdetectionStart=time.time()
         boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
         model=args["detection_method"])
+        tdetectionEnd=time.time()
+        
+        # Encoding timing
+        tEncodingStart=time.time()
         encodings = face_recognition.face_encodings(rgb, boxes,num_jitters=num_jitters)
         logging.debug(f'boxes : {len(boxes)}\n')
-
+        tEncodingEnd=time.time()
+        
         # if face_location prediction is less than records in tabel => scale up locationsSize
         while len(boxes)<labelExt.iloc[:,1:5].sum(axis="columns").values.item():
             locationsSize+=1
             try :
                 logging.debug(f'face_location prediction is less than records =>\nlen of boxes: {len(boxes)}\nrecords : {labelExt.iloc[:,1:5].sum(axis="columns").values.item()}\nlocationsSize : {locationsSize}\n')
+                # Detection timing
+                tdetectionStart=time.time()
                 boxes = face_recognition.face_locations(rgb, number_of_times_to_upsample=locationsSize,
                 model=args["detection_method"])
+                tdetectionEnd=time.time()
+                # Encoding timing
+                tEncodingStart=time.time()
                 encodings = face_recognition.face_encodings(rgb, boxes,num_jitters=num_jitters)
+                tEncodingEnd=time.time()
                 logging.debug(f'boxes_upsample : {len(boxes)}\n')
             except Exception as e:
                 logging.debug(f'------------------------------{e}--------------------------')
@@ -191,7 +203,7 @@ try:
 
         # initialize the list of names for each face detected
         names = []
-        tEncodingEnd=time.time()
+        
 
         # timming Comparing time
         tCompareStart=time.time()
@@ -291,10 +303,11 @@ try:
 
         # show the whole processing time
         tl=tloadingEnd-tloadingStart
+        td=tdetectionEnd-tdetectionStart
         te=tEncodingEnd-tEncodingStart
         tc=tCompareEnd-tCompareStart
         tt=tl+te+tc
-        logging.info(f'\n Loading time : {tl} \n Encoding time : {te} \n Comapare time : {tc} \n Total recognize time : {tt}\n')
+        logging.info(f'\n Loading time : {tl} \n Detection time : {td} \n Encoding time : {te} \n Comapare time : {tc} \n Total recognize time : {tt}\n')
 
         # save timming to timing_log.csv
         timing_log=pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/timing_log.csv',index_col=0,dtype={'num_jitters':np.str,'tolerance':np.str})
@@ -306,11 +319,13 @@ try:
             try:
                 logging.info(f'start over writing timing_log.csv\n')
                 tl_row=timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'loading']
+                td_row=timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'detecting']
                 te_row=timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'encoding']
                 tc_row=timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'comparing']
                 tt_row=timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'total']
 
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'loading']=tl+tl_row
+                timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'detecting']=td+td_row
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'encoding']=te+te_row
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'comparing']=tc+tc_row
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'total']=tt+tt_row

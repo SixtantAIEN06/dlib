@@ -2,20 +2,25 @@ import os
 import subprocess as sp
 import logging
 import re
+import pandas as pd
+import time
+
+logging.basicConfig(level=logging.DEBUG,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_batch_read.txt')
 
 encoding_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/encoding'))
 r=re.compile("\w+[^all]\_nj\w+\.pickle")
 encoding_file_list=list(filter(r.match,encoding_file_list))
-
 image_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/photo'))
-
 image_acceptable_width=str(2560)
-
-logging.basicConfig(level=logging.DEBUG,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_batch_read.txt')
-
 stop_encoding_iteration=False
 stop_image_iteration=False
 stop_tol_iteration=False
+
+init_conf_matrix=pd.DataFrame(columns=['encoding_set','num_jitters','tolerance','prediction','P','N'])
+init_conf_matrix.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',index=False,header=True)
+
+timing_log=pd.DataFrame(columns=['encoding_set','num_jitters','tolerance','loading','detecting','encoding','comparing','total'])
+timing_log.to_csv(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/timing_log.csv',index=False,header=True)
 
 for encoding_set in encoding_file_list:
     if not stop_encoding_iteration :
@@ -67,7 +72,7 @@ for encoding_set in encoding_file_list:
                     if res[0].decode(encoding='utf-8').split('\n')[-3]:
                         status=res[0].decode(encoding='utf-8').split('\n')[-3].replace(" ","")
                         logging.info(f'recieve : {status}\n')
-                        logging.info(f'tolerance : {tolerance}\n{input_image} has been processed\n-------------------------------------------------\n')
+                        logging.info(f'encoding set : {encoding_set}, tolerance : {tolerance}\n{input_image} has been processed\n-------------------------------------------------\n')
                     else:
                         status="unknown error please turn on the output all stdout or stderr"
                         logging.info(f'recieve : {status}\n')
@@ -131,3 +136,13 @@ for encoding_set in encoding_file_list:
                     logging.info(f'{e}\n{e.__class__.__name__,}')
                     iteration_successful=True
 
+os.rename(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/Confusion_matrix.csv',os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/Confusion_matrix_{time.strftime("%Y%m%d%H%M", time.localtime())}.csv')
+os.replace(os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/Confusion_matrix_{time.strftime("%Y%m%d%H%M", time.localtime())}.csv',os.path.dirname(os.path.abspath(__file__))+f'/expriment_records/Confusion_matrix/Confusion_matrix_{time.strftime("%Y%m%d%H%M", time.localtime())}.csv')
+
+os.rename(os.path.dirname(os.path.abspath(__file__))+'/examples/exampleSet/timing_log.csv',os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/timing_log_{time.strftime("%Y%m%d%H%M", time.localtime())}.csv')
+os.replace(os.path.dirname(os.path.abspath(__file__))+f'/examples/exampleSet/timing_log_{time.strftime("%Y%m%d%H%M", time.localtime())}.csv',os.path.dirname(os.path.abspath(__file__))+f'/expriment_records/timing_log/timing_log_{time.strftime("%Y%m%d%H%M", time.localtime())}.csv')
+
+os.rename(os.path.dirname(os.path.abspath(__file__))+'/mylog_batch_read.txt',os.path.dirname(os.path.abspath(__file__))+f'/mylog_batch_read_{time.strftime("%Y%m%d%H%M", time.localtime())}.txt')
+os.replace(os.path.dirname(os.path.abspath(__file__))+f'/mylog_batch_read_{time.strftime("%Y%m%d%H%M", time.localtime())}.txt',os.path.dirname(os.path.abspath(__file__))+f'/expriment_records/log/mylog_batch_read_{time.strftime("%Y%m%d%H%M", time.localtime())}.txt')
+os.rename(os.path.dirname(os.path.abspath(__file__))+'/mylog_recog_loop.txt',os.path.dirname(os.path.abspath(__file__))+f'/mylog_recog_loop_{time.strftime("%Y%m%d%H%M", time.localtime())}.txt')
+os.replace(os.path.dirname(os.path.abspath(__file__))+f'/mylog_recog_loop_{time.strftime("%Y%m%d%H%M", time.localtime())}.txt',os.path.dirname(os.path.abspath(__file__))+f'/expriment_records/log/mylog_recog_loop_{time.strftime("%Y%m%d%H%M", time.localtime())}.txt')
