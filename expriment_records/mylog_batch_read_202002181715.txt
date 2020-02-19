@@ -1,0 +1,348 @@
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.1
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.1
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.1
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : MemoryError
+
+batch_read--INFO--line : 58
+tolerance : 0.1
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR--line : 66
+error message :  std::bad_alloc , happen in :138 
+
+batch_read--ERROR--line : 104
+MemoryError happened, now image_acceptable_width is 4096
+
+batch_read--INFO--line : 57
+recieve : MemoryError
+
+batch_read--INFO--line : 58
+tolerance : 0.1
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--ERROR--line : 66
+error message :  std::bad_alloc , happen in :138 
+
+batch_read--ERROR--line : 104
+MemoryError happened, now image_acceptable_width is 2560
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.1
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.2
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.2
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.2
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.2
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.3
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.3
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.3
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.3
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.4
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.4
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.4
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.4
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.5
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.5
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.5
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.5
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.6
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.6
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.6
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.6
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.7
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.7
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.7
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.7
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.8
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.8
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.8
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.8
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.9
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.9
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.9
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 0.9
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 1.0
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 1.0
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 1.0
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+-------------------------------------------------
+
+batch_read--INFO--line : 57
+recieve : recognize_finish
+
+batch_read--INFO--line : 58
+tolerance : 1.0
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+-------------------------------------------------
+

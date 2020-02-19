@@ -6,7 +6,7 @@ image_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/e
 
 image_acceptable_width=str(2560)
 
-logging.basicConfig(level=logging.INFO,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_batch_read.txt')
+logging.basicConfig(level=logging.DEBUG,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_batch_read.txt')
 
 stop_image_iteration=False
 stop_tol_iteration=False
