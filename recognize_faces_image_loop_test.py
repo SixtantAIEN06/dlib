@@ -336,6 +336,7 @@ try:
             except:
                 logging.debug(f'revise timing_log.csv unassigned rows\n')
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'loading']=0
+                timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'detecting']=0
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'encoding']=0
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'comparing']=0
                 timing_log.loc[(f'{args["encodings"]}',f'nj:{num_jitters}',f'tol:{args["tolerance"]}'),'total']=0

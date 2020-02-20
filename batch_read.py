@@ -5,7 +5,7 @@ import re
 import pandas as pd
 import time
 
-logging.basicConfig(level=logging.DEBUG,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_batch_read.txt')
+logging.basicConfig(level=logging.INFO,format='%(module)s--%(levelname)s--line : %(lineno)d\n%(message)s',filename='mylog_batch_read.txt')
 
 encoding_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/encoding'))
 r=re.compile("\w+[^all]\_nj\w+\.pickle")
@@ -49,7 +49,7 @@ for encoding_set in encoding_file_list:
             iteration_successful=False
             while not iteration_successful:
                 try :
-                    print(f"--------------tol : {tolerance}--batch : {_}-------------------------")
+                    print(f"--------------encoding set : {encoding_set}--tol : {tolerance}--batch : {_}-----------------")
                     input_image=image_file_list[_:_+batch_size]
                     input_image=",".join(input_image)
                     recog=sp.Popen(['python3','recognize_faces_image_loop_test.py','-e',f'encoding/{encoding_set}','-i',input_image,'-iw',image_acceptable_width,"-t",tolerance],stdout=sp.PIPE)
@@ -72,7 +72,7 @@ for encoding_set in encoding_file_list:
                     if res[0].decode(encoding='utf-8').split('\n')[-3]:
                         status=res[0].decode(encoding='utf-8').split('\n')[-3].replace(" ","")
                         logging.info(f'recieve : {status}\n')
-                        logging.info(f'encoding set : {encoding_set}, tolerance : {tolerance}\n{input_image} has been processed\n-------------------------------------------------\n')
+                        logging.info(f'encoding set : {encoding_set}, tolerance : {tolerance}\n{input_image} has been processed\n')
                     else:
                         status="unknown error please turn on the output all stdout or stderr"
                         logging.info(f'recieve : {status}\n')
@@ -126,7 +126,7 @@ for encoding_set in encoding_file_list:
 
                     recog.kill()
                     iteration_successful=True
-                    logging.debug('iteration finish\n')
+                    logging.info('iteration finish-------------------------------------------------\n\n')
                 except StopIteration as e:
                     logging.info(f'{e}\n{e.__class__.__name__,}')
                     stop_image_iteration=True
