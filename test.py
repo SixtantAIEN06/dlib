@@ -1,5 +1,7 @@
-# import forImport_recognize_faces_image
-# a = forImport_recognize_faces_image.readPara("encoding/encoding3.pickle",'examples/P_20200201_164242.jpg','cnn')
+import forImport_recognize_faces_image
+a=forImport_recognize_faces_image.readPara("encoding/encoding_all_nj1_300p.pickle",'examples/exampleSet/photo/ford001.jpg','cnn',0.45)
+print(a.get('unknown'))
+
 # @profile
 # def my_func():
 #     import gc
@@ -146,17 +148,17 @@
 #     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 #     print(exc_type, fname, exc_tb.tb_lineno)
 #--------------------------------------------------------------------------------------
-import os
-import subprocess as sp
-import logging
-import re
+# import os
+# import subprocess as sp
+# import logging
+# import re
 
-encoding_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/encoding'))
-r=re.compile("\w+[^all]\_nj\w+\.pickle")
-li1=sorted(list(filter(r.match,encoding_file_list)))
-# for _ in encoding_file_list:
-#     re.findall("\w+\_nj\w+\.pickle",)
-print(li1)
+# encoding_file_list=sorted(os.listdir(os.path.dirname(os.path.abspath(__file__))+'/encoding'))
+# r=re.compile("\w+[^all]\_nj\w+\.pickle")
+# li1=sorted(list(filter(r.match,encoding_file_list)))
+# # for _ in encoding_file_list:
+# #     re.findall("\w+\_nj\w+\.pickle",)
+# print(li1)
 
 
 

@@ -306,7 +306,7 @@ try:
         td=tdetectionEnd-tdetectionStart
         te=tEncodingEnd-tEncodingStart
         tc=tCompareEnd-tCompareStart
-        tt=tl+te+tc
+        tt=tl+td+te+tc
         logging.info(f'\n Loading time : {tl} \n Detection time : {td} \n Encoding time : {te} \n Comapare time : {tc} \n Total recognize time : {tt}\n')
 
         # save timming to timing_log.csv
