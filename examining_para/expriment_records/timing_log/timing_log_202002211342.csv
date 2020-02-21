@@ -1,0 +1,2 @@
+encoding_set,num_jitters,tolerance,loading,detecting,encoding,comparing,total
+../encoding/encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle,nj:1,tol:0.1,0.7440848350524901,389.6428036689759,5.022679090499879,0.05490708351135253,395.46447467803955

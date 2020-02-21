@@ -1,0 +1,108 @@
+examining_para_loop--DEBUG--line : 67
+
+workingDir : /home/ywt01/codes/dlib_test/examining_para 
+ filename : examining_para_loop.py 
+ dirname :  
+ abspath : /home/ywt01/codes/dlib_test/examining_para/examining_para_loop.py 
+ base : examining_para_loop.py 
+ dir(abs) : /home/ywt01/codes/dlib_test/examining_para
+
+examining_para_loop--INFO--line : 88
+input_image_list : 
+['ford001.jpg', 'ford002.jpg', 'ford003.jpg', 'ford004.jpg', 'ford005.jpg', 'ford006.jpg', 'ford007.jpg', 'hao001.jpg', 'hao003.jpg', 'hao004.jpg']
+
+examining_para_loop--INFO--line : 93
+----------------------image--------------------------------
+examining_para_loop--INFO--line : 94
+args["encodings"] : encoding/../encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, args["tolerance"] : 0.1, num_jitters : 1
+
+examining_para_loop--DEBUG--line : 96
+read image path:/home/ywt01/codes/dlib_test/examining_para/../testSet/photo/ford001.jpg
+
+examining_para_loop--INFO--line : 99
+file : ford001.jpg
+
+examining_para_loop--INFO--line : 104
+[INFO] loading encodings...
+
+examining_para_loop--DEBUG--line : 67
+
+workingDir : /home/ywt01/codes/dlib_test/examining_para 
+ filename : examining_para_loop.py 
+ dirname :  
+ abspath : /home/ywt01/codes/dlib_test/examining_para/examining_para_loop.py 
+ base : examining_para_loop.py 
+ dir(abs) : /home/ywt01/codes/dlib_test/examining_para
+
+examining_para_loop--INFO--line : 88
+input_image_list : 
+['hao005.jpg', 'hao008.jpg', 'hao009.jpg', 'ywt001.png', 'ywt002.png', 'ywt003.png', 'ywt004.png', 'ywt005.png', 'ywt006.png', 'ywt008.png']
+
+examining_para_loop--INFO--line : 93
+----------------------image--------------------------------
+examining_para_loop--INFO--line : 94
+args["encodings"] : encoding/../encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, args["tolerance"] : 0.1, num_jitters : 1
+
+examining_para_loop--DEBUG--line : 96
+read image path:/home/ywt01/codes/dlib_test/examining_para/../testSet/photo/hao005.jpg
+
+examining_para_loop--INFO--line : 99
+file : hao005.jpg
+
+examining_para_loop--INFO--line : 104
+[INFO] loading encodings...
+
+examining_para_loop--DEBUG--line : 67
+
+workingDir : /home/ywt01/codes/dlib_test/examining_para 
+ filename : examining_para_loop.py 
+ dirname :  
+ abspath : /home/ywt01/codes/dlib_test/examining_para/examining_para_loop.py 
+ base : examining_para_loop.py 
+ dir(abs) : /home/ywt01/codes/dlib_test/examining_para
+
+examining_para_loop--INFO--line : 88
+input_image_list : 
+['ywt009.png', 'ywt010.jpg', 'ywt011.jpg', 'ywt012.jpg', 'ywt013.jpg', 'ywt014.jpg', 'ywt015.jpg', 'ywt016.jpg', 'ywt017.jpg', 'ywt018.jpg']
+
+examining_para_loop--INFO--line : 93
+----------------------image--------------------------------
+examining_para_loop--INFO--line : 94
+args["encodings"] : encoding/../encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, args["tolerance"] : 0.1, num_jitters : 1
+
+examining_para_loop--DEBUG--line : 96
+read image path:/home/ywt01/codes/dlib_test/examining_para/../testSet/photo/ywt009.png
+
+examining_para_loop--INFO--line : 99
+file : ywt009.png
+
+examining_para_loop--INFO--line : 104
+[INFO] loading encodings...
+
+examining_para_loop--DEBUG--line : 67
+
+workingDir : /home/ywt01/codes/dlib_test/examining_para 
+ filename : examining_para_loop.py 
+ dirname :  
+ abspath : /home/ywt01/codes/dlib_test/examining_para/examining_para_loop.py 
+ base : examining_para_loop.py 
+ dir(abs) : /home/ywt01/codes/dlib_test/examining_para
+
+examining_para_loop--INFO--line : 88
+input_image_list : 
+['ywt019.jpg', 'ywt_hao_ford001.jpg', 'ywt_hao_ford002.jpg']
+
+examining_para_loop--INFO--line : 93
+----------------------image--------------------------------
+examining_para_loop--INFO--line : 94
+args["encodings"] : encoding/../encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, args["tolerance"] : 0.1, num_jitters : 1
+
+examining_para_loop--DEBUG--line : 96
+read image path:/home/ywt01/codes/dlib_test/examining_para/../testSet/photo/ywt019.jpg
+
+examining_para_loop--INFO--line : 99
+file : ywt019.jpg
+
+examining_para_loop--INFO--line : 104
+[INFO] loading encodings...
+

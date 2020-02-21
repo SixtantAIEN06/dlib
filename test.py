@@ -1,6 +1,8 @@
-import forImport_recognize_faces_image
-a=forImport_recognize_faces_image.readPara("encoding/encoding_all_nj1_300p.pickle",'examples/exampleSet/photo/ford001.jpg','cnn',0.45)
+import recognize_faces_image
+a=recognize_faces_image.readPara("encoding/encoding_all_nj1_300p.pickle",'testSet/photo/ford001.jpg','cnn',0.45)
 print(a.get('unknown'))
+
+
 
 # @profile
 # def my_func():

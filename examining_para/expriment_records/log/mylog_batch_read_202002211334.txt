@@ -1,0 +1,47 @@
+batch_examining_para--DEBUG--line : 33
+encoding_file_list : ['encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle']
+
+batch_examining_para--INFO--line : 82
+recieve : FileNotFoundError
+
+batch_examining_para--INFO--line : 83
+encoding set : encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, tolerance : 0.1
+ford001.jpg,ford002.jpg,ford003.jpg,ford004.jpg,ford005.jpg,ford006.jpg,ford007.jpg,hao001.jpg,hao003.jpg,hao004.jpg has been processed
+
+batch_examining_para--INFO--line : 137
+iteration finish-------------------------------------------------
+
+
+batch_examining_para--INFO--line : 82
+recieve : FileNotFoundError
+
+batch_examining_para--INFO--line : 83
+encoding set : encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, tolerance : 0.1
+hao005.jpg,hao008.jpg,hao009.jpg,ywt001.png,ywt002.png,ywt003.png,ywt004.png,ywt005.png,ywt006.png,ywt008.png has been processed
+
+batch_examining_para--INFO--line : 137
+iteration finish-------------------------------------------------
+
+
+batch_examining_para--INFO--line : 82
+recieve : FileNotFoundError
+
+batch_examining_para--INFO--line : 83
+encoding set : encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, tolerance : 0.1
+ywt009.png,ywt010.jpg,ywt011.jpg,ywt012.jpg,ywt013.jpg,ywt014.jpg,ywt015.jpg,ywt016.jpg,ywt017.jpg,ywt018.jpg has been processed
+
+batch_examining_para--INFO--line : 137
+iteration finish-------------------------------------------------
+
+
+batch_examining_para--INFO--line : 82
+recieve : FileNotFoundError
+
+batch_examining_para--INFO--line : 83
+encoding set : encoding_hog_nj1_dataset_ywt_hao_ford_3p.pickle, tolerance : 0.1
+ywt019.jpg,ywt_hao_ford001.jpg,ywt_hao_ford002.jpg has been processed
+
+batch_examining_para--INFO--line : 137
+iteration finish-------------------------------------------------
+
+
